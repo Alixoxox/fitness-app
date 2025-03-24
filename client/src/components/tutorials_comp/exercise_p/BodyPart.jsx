@@ -11,16 +11,18 @@ const BodyPart = ({ item }) => {
   onClick={() => {
     if (item === "all") {
       setExercise(exercises);
+      
     } else {
       const filteredExercises = exercises.filter(
         (ex) =>
           Array.isArray(ex.primaryMuscles) &&
-          ex.primaryMuscles.some((muscle) => muscle.toLowerCase() === item.toLowerCase())
+        ex.primaryMuscles.some((muscle) => muscle.toLowerCase() === item.toLowerCase())
       );
-
-      setExercise(filteredExercises); // ✅ Now this is correctly placed
+      setExercise(filteredExercises); 
+      
     }
-
+    
+    window.scrollTo({top:1100,behavior:'smooth'})
     setBodyPart(item);
   }}
   style={{
@@ -36,7 +38,7 @@ const BodyPart = ({ item }) => {
   }}
 >
   {/* Image */}
-  <img src={`/assets/body-parts/${item.trim()}.png`} alt="dumbbell" className="w-15 h-auto mb-2"  onError={(e) => (e.target.src ='/assets/body-parts/all.png')}/>
+  <img src={`/body-parts/${item.trim()}.png`} alt="dumbbell" className="w-15 h-auto mb-2"  onError={(e) => (e.target.src ='/body-parts/all.png')}/>
 
   {/* Text */}
   <p className="text-lg font-semibold mt-2 text-black capitalize">{item}</p>
