@@ -31,7 +31,7 @@ const Exercise = () => {
 
       {/* Exercise Cards */}
       <div className="flex justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-4 xl:gap-8 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-4 xl:gap-8 w-full">
           {display_ex
             .filter(exercise => exercise.id !== "Alternating_Cable_Shoulder_Press")
             .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
@@ -53,7 +53,9 @@ const Exercise = () => {
       <div className="flex justify-center mt-6 space-x-3">
         <button 
           className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
-          onClick={() => handlePageChange(page - 1)}
+          onClick={() => {handlePageChange(page - 1) 
+            setTimeout(()=>{window.scrollTo({top:1100,behavior:'smooth'})},500)
+          }}
           disabled={page === 0}
         >
           Prev
@@ -63,7 +65,9 @@ const Exercise = () => {
 
         <button 
           className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
-          onClick={() => handlePageChange(page + 1)}
+          onClick={() => {handlePageChange(page + 1) 
+            setTimeout(()=>{window.scrollTo({top:1100,behavior:'smooth'})},500)
+          }}
           disabled={page + 1 === totalPages}
         >
           Next

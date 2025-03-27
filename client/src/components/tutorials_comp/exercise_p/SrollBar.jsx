@@ -11,7 +11,7 @@ const LeftArrow = () => {
   const { scrollPrev } = useContext(VisibilityContext);
   return (
     <button className="mr-2 p-1" onClick={() => scrollPrev()}>
-      <img src={leftarrow} alt="Left Arrow" />
+      <img src={leftarrow} loading='lazy' alt="Left Arrow" />
     </button>
   );
 };
@@ -20,7 +20,7 @@ const RightArrow = () => {
   const { scrollNext } = useContext(VisibilityContext);
   return (
     <button className="ml-2 p-1" onClick={() => scrollNext()}>
-      <img src={rightarrow} alt="Right Arrow" />
+      <img src={rightarrow} loading="lazy" alt="Right Arrow" />
     </button>
   );
 };

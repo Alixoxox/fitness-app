@@ -1,13 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-const Home = () => {
-    
+const home = () => {
   return (
-    <div className="home-container">
-      <h1>Welcome to the Home Page</h1>
-      <p>This is the main landing page of your application.</p>
+    <div>
+      
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default home
