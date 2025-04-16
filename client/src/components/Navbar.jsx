@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/icons/top_logo.png";
-import user from "../assets/icons/user.png";
-import dropdownicon from '../assets/icons/drop-down-list.png'
+import user from "../assets/icons/healthy.png";
 const Navbar = () => {
+  useEffect(() => {
+    const isuser = async () => {
+      try {
+        const authtoken = localStorage.getItem("authtoken")
+        if (authtoken) {
+          setLogged(true)
+        } else { setLogged(false) }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    isuser()
+  }, [])
+
   const [active, setActive] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [logged, setLogged] = useState(null);
@@ -40,32 +53,28 @@ const Navbar = () => {
               className={`px-4 py-2 flex items-center gap-2 border-b-2 ${active === "workout" ? "border-blue-500" : "border-transparent hover:border-blue-500"}`}
               onClick={() => setIsDropdownOpen(prev => !prev)} // Fix: Proper toggle
             >
-              Workout <img src={dropdownicon} loading="eager" className="h-4 mt-1" />
+              Workout  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
             </button>
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
-                <Link to="/workout/discover" className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                <Link to="/workout/create" className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   onClick={() => {
                     setActive("workout");
                     setIsDropdownOpen(false);
                   }}>
-                  Discover Plans
+                  Create Routine
                 </Link>
-                <Link to="/workout/train" className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  onClick={() => {
-                    setActive("workout");
-                    setIsDropdownOpen(false);
-                  }}>
-                  Train
-                </Link>
+
                 <Link to="/workout/history" className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   onClick={() => {
                     setActive("workout");
                     setIsDropdownOpen(false);
                   }}>
-                  Workout History
+                  History
                 </Link>
               </div>
             )}
@@ -81,12 +90,11 @@ const Navbar = () => {
         <div className="flex items-center">
           {!logged ? (
             <nav className="flex items-center space-x-4">
-              <Link to="/login" className="text-blue-500 hover:text-blue-600">Login</Link>
-              <Link to="/signup" className="px-3 py-1 border border-blue-500 rounded text-blue-500 hover:bg-blue-500 hover:text-white transition">Signup</Link>
+              <Link to="../login" className="px-3 py-1 border bg-blue-500 text-white border-blue-500 rounded  hover:bg-blue-600 hover:text-white transition ">Login</Link>
             </nav>
           ) : (
             <Link to="/account">
-              <img src={user} alt="User" loading="eager" className="w-10 h-10 rounded-full" />
+              <img src={user} alt="User" className="w-10 h-10 rounded-full" />
             </Link>
           )}
         </div>
@@ -96,11 +104,13 @@ const Navbar = () => {
       {isOpen && (
         <div className="lg:hidden flex flex-col ms-10 space-y-4 py-4 ">
           <Link to="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link>
-          <span className="flex items-center gap-1 hover:cursor-pointer" onClick={() => setdropped(prev => !prev)}>Workout <img src={dropdownicon} loading="eager" className="h-4" /> </span>
+          <span className="flex items-center gap-1 hover:cursor-pointer" onClick={() => setdropped(prev => !prev)}>Workout  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg> </span>
           {dropped && (<div className="ms-5 gap-y-1 flex flex-col">
-            <Link to='/workout/discover' className="text-gray-600 " onClick={() => setIsOpen(false)}>Discover Plans</Link>
-            <Link to="/workout/train" className="text-gray-600 " onClick={() => setIsOpen(false)}>Train</Link>
-            <Link to="/workout/history" className="text-gray-600 " onClick={() => setIsOpen(false)}>Workout History</Link>
+            <Link to='/workout/create' className="text-gray-600 " onClick={() => setIsOpen(false)}>Create Routine</Link>
+
+            <Link to="/workout/history" className="text-gray-600 " onClick={() => setIsOpen(false)}> History</Link>
           </div>)}
           <Link to="/tutorials" onClick={() => setIsOpen(false)}>Tutorials</Link>
         </div>

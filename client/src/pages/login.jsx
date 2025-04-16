@@ -1,23 +1,39 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authImage from "../assets/images/AuthImage.jpg";
-
+import { verifyuserinfo } from './utils/fetch';
+import { UserContext } from '../context/usercontext';
 const Login = () => {
   const navigate = useNavigate();
   const [remember, setRemember] = useState(false);
-
-  const handleSubmit = (e) => {
+   const { userInfo, setUserInfo } = useContext(UserContext);
+   
+  const handleSubmit = async(e) => {
     e.preventDefault(); // Prevent default form submission
-    alert("Login Successful! 🚀");
+    const userdata=await verifyuserinfo(userInfo)
+    
+    if (!userdata) {
+      console.error("Invalid user info");
+      return; // Stop execution if userdata is invalid
+    }
+
+    setUserInfo(userdata)
     navigate("/dashboard"); // Navigate to dashboard after login
-  };
+  };  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({
+        ...prev, [name]: value,  // ..prev means the prev remains same only updated changes
+    }));
+};
 
   return (
     <div className="flex h-[90vh] items-center justify-center bg-gray-100">
       <div className="grid sm:grid-cols-1 md:grid-cols-2 w-[80vw] sm:w-[90vw] h-[78vh]">
         {/* Image Section */}
         <div className="md:flex justify-center items-center hidden text-white h-full">
-          <img src={authImage} className="object-cover w-full h-full" loading="eager" alt="Auth" />
+          <img src={authImage} className="object-cover w-full h-full" alt="Auth" />
         </div>
 
         {/* Login Form */}
@@ -33,10 +49,10 @@ const Login = () => {
                 </label>
                 <input 
                   type="email" 
-                  id="email" 
+                  id="email" name="email"
                   className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" 
                   placeholder="your@email.com" 
-                  required 
+                  required value={userInfo.email || ''} onChange={handleChange}
                 />
               </div>
 
@@ -46,10 +62,10 @@ const Login = () => {
                 </label>
                 <input 
                   type="password" 
-                  id="password" 
+                  id="password" name="password"
                   className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" 
                   placeholder="Enter your password" 
-                  required 
+                  required value={userInfo.password || ''} onChange={handleChange}
                 />
                 <a href="#" className="text-xs text-gray-600 hover:text-indigo-500 focus:outline-none">
                   Forgot Password?

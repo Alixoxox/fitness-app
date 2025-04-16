@@ -70,8 +70,11 @@ const Details = ({ exerciseDetail }) => {
         <section className="text-gray-600 body-font overflow-hidden flex justify-around">
             <div
                 className="container mx-auto flex px-5 py-5 items-start justify-around flex-col lg:flex-row  mt-3"
-                ref={cardRef}
-            >
+                ref={cardRef} 
+            >   <div>
+                
+            </div>
+                
                 <img
                     className="xl:w-6/6 lg:w-3/6 md:w-5/6 w-full mx-auto mb-5 object-cover object-center rounded-lg lg:mt-2 lg:ml-3 "
                     src={currentImage || fallbackImg}

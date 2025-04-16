@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import authImage from '../assets/images/banner_peace.jpg';
+import { submituserinfo } from './utils/fetch';
+import { UserContext } from '../context/usercontext';
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const { userInfo, setUserInfo } = useContext(UserContext);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserInfo((prev) => ({
+            ...prev, [name]: value,  // ..prev means the prev remains same only updated changes
+        }));
+    };
+    const handleClick=async(e)=>{
+        e.preventDefault();
+        submituserinfo(userInfo);
+        navigate('../dashboard')
+    }
     return (
         <div className="flex h-[90vh] items-center justify-center bg-gray-100">
             <div className="grid sm:grid-cols-1 md:grid-cols-2 w-[90vw] ">
@@ -13,20 +30,20 @@ const Signup = () => {
                         <span className="text-3xl font-bold text-gray-600">Welcome To TrackFit 🖐️</span>
                         <span className="text-sm text-gray-500 ">Please Enter Your Credentials</span>
 
-                        <form action="/signup">
+                        <form onSubmit={handleClick}>
                             <div className="mb-4">
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                                <input type="email" id="email" className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="your@email.com" required />
+                                <input type="email" id="email" name="email" className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="your@email.com" required value={userInfo.email || ""} onChange={handleChange} />
                             </div>
 
                             <div className="mb-4 flex flex-row w-full gap-4">
                                 <div className='w-1/2'>
                                     <label htmlFor="fname" className="block text-sm font-medium text-gray-700 mb-2">Fname</label>
-                                    <input type="name" id="fname" className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter First name" required />
+                                    <input type="name" id="fname" name='fname' className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter First name" required value={userInfo.fname || ''} onChange={handleChange} />
                                 </div>
                                 <div className='w-1/2'>
                                     <label htmlFor="lname" className="block text-sm font-medium text-gray-700 mb-2">Lname</label>
-                                    <input type="name" id="lname" className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter Last name" required />
+                                    <input type="name" id="lname" name='lname' className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter Last name" required value={userInfo.lname || ""} onChange={handleChange} />
 
                                 </div>
 
@@ -35,12 +52,12 @@ const Signup = () => {
 
                             <div className="mb-4">
                                 <label htmlFor="Username" className="block text-sm font-medium text-gray-700 mb-2">Username</label>
-                                <input type="name" id="Username" className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your password" required />
+                                <input type="name" id="Username" name='username' className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your password" required value={userInfo.username || ''} onChange={handleChange} />
 
                             </div>
                             <div className="mb-4">
                                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                                <input type="password" id="password" className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your password" required />
+                                <input type="password" id="password" name='password' className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your password" required value={userInfo.password || ''} onChange={handleChange} />
                                 <a href="#" className="text-xs text-gray-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Forgot Password?</a>
                             </div>
                             <div className="flex items-center justify-between mb-4">
@@ -57,7 +74,7 @@ const Signup = () => {
 
                 {/* Image Section (Now on Right) */}
                 <div className="md:flex justify-center items-center hidden text-white h-full">
-                    <img src={authImage} className="object-cover w-full h-full" loading="eager" alt="Auth" />
+                    <img src={authImage} className="object-cover w-full h-full" alt="Auth" />
                 </div>
 
             </div>

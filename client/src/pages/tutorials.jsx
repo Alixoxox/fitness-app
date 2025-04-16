@@ -27,7 +27,6 @@ const Tutorials = () => {
             src={banner}
             alt="Tutorial Banner"
             className="shadow-lg w-auto" 
-            loading='eager'
             style={{ borderBottomLeftRadius: "100px", maxWidth: "60vw", maxHeight: "92vh" }}
           />
         </div>
